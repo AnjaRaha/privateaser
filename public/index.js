@@ -17,10 +17,23 @@ function priceForEachBooker(){
       var barId = events[i].barId;
       var people = events[i].persons;
       var time = events[i].time;
-      var finalPrice = Price(barId,people,time);
+      if(people>=60){
+        var finalPrice = Price(barId,people,time) * 0.5;
+      }
+      else if(people < 60 && people >=20){
+         var finalPrice = Price(barId,people,time) * 0.7;
+      }
+      else if(people >= 10 && people <20){
+         var finalPrice = Price(barId,people,time) * 0.9;
+      }
+      else
+      {
+        var finalPrice = Price(barId,people,time);
+      }
       events[i].price = finalPrice; 
 }
 }
+
 
 
 /*var i1 ;
@@ -95,7 +108,7 @@ const events = [{
   'id': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
   'booker': 'otacos',
   'barId': '6e06c9c0-4ab0-4d66-8325-c5fa60187cf8',
-  'distance': 5,
+  'time': 5,
   'persons': 80,
   'options': {
     'deductibleReduction': true
