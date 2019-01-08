@@ -1,5 +1,40 @@
-'use strict';
+function Price (barId,people,time)
+{
+  for(var i =0;i<bars.length;i++){
+    if (bars[i].id == barId){
+      var timeComponent = Number(bars[i].pricePerHour) * Number(time);
+      var peopleComponent = Number(bars[i].pricePerPerson) * Number (people);
+      var bookingPrice = timeComponent + peopleComponent;
+}
 
+}
+return bookingPrice;
+}
+
+function priceForEachBooker(){
+  for(var i=0;i<events.length;i++)
+  {
+      var barId = events[i].barId;
+      var people = events[i].persons;
+      var time = events[i].time;
+      var finalPrice = Price(barId,people,time);
+      events[i].price = finalPrice; 
+}
+}
+
+
+/*var i1 ;
+for(i1=0;i<events.length;i1++)
+{
+events[i1].price=functionPrix(events[i1].barId);
+events[i1].comission.insurance=0.5*events[i1].price;
+events[i1].comission.treasury=events[i].persons;
+events[i1].comission.privateaser=events[i1].price -events[i1].price -events[i1].comission.treasury ;
+}*/
+
+
+
+'use strict';
 //list of bats
 //useful for ALL 5 steps
 //could be an array of objects that you fetched from api or database
@@ -7,7 +42,7 @@ const bars = [{
   'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
   'name': 'freemousse-bar',
   'pricePerHour': 50,
-  'pricePerPerson': 20
+  'pricePerPerson': 14
 }, {
   'id': '165d65ec-5e3f-488e-b371-d56ee100aa58',
   'name': 'solera',
@@ -145,7 +180,9 @@ const actors = [{
     'amount': 0
   }]
 }];
-
+priceForEachBooker();
 console.log(bars);
 console.log(events);
 console.log(actors);
+
+
