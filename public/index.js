@@ -6,9 +6,63 @@ function Price (barId,people,time)
       var peopleComponent = Number(bars[i].pricePerPerson) * Number (people);
       var bookingPrice = timeComponent + peopleComponent;
 }
-
 }
 return bookingPrice;
+}
+
+
+function amountBooker (barId)
+{
+  for(var i=0;i<events.length;i++)
+  {
+    if(events[i].id == barId)
+    var Booker = events[i].price;
+  }
+  return Booker;
+}
+function amountBar(barId)
+{
+  for(var i=0;i<events.length;i++)
+  {
+    if(events[i].id==barId)
+    var Bar = Number(events[i].price) - (Number(events[i].price) * 0.3);
+  }
+  return Bar;
+}
+function amountInsurance(barId)
+{
+ for(var i=0;i<events.length;i++)
+  {
+    if(events[i].id==barId)
+    var Insurance = events[i].commission.insurance;
+  } 
+  return Insurance;
+}
+function amountTreasury(barId){
+  for(var i=0;i<events.length;i++)
+  {
+    if(events[i].id==barId)
+    var Treasury = events[i].commission.treasury;
+  } 
+  return Treasury;
+}
+function amountPrivateaser(barId){
+  for(var i=0;i<events.length;i++)
+  {
+    if(events[i].id==barId)
+    
+   {
+    if(events[i].options.deductibleReduction == true)
+    {
+      var Privateaser = events[i].commission.privateaser + events[i].persons;
+    }
+    else
+    {
+      var Privateaser = events[i].commission.privateaser;
+    }
+  }
+  } 
+  return Privateaser;
 }
 
 function priceForEachBooker(){
@@ -40,13 +94,11 @@ function computeCommission(){
   
   for (var i=0;i<events.length;i++)
   {
-      var commission = Number(events[i].price) * 0.3;
-      var insurance = commission % 2;
-      var treasury  = events[i].persons;
-      var privateaser= Number(treasury) - Number(insurance);
-      events[i].insurance = insurance; 
-      events[i].treasury = treasury;
-      events[i].privateaser = privateaser;
+      var test = events[i].price;
+      var commission = events[i].price * 0.3;
+      events[i].commission.insurance = commission / 2 ;
+      events[i].commission.treasury  = events[i].persons;
+      events[i].commission.privateaser = Math.abs(events[i].commission.treasury - events[i].commission.insurance);     
   }
 }
 
@@ -62,15 +114,38 @@ function isDeductible()
   }
 }
 
-/*var i1 ;
-for(i1=0;i<events.length;i1++)
-{
-events[i1].price=functionPrix(events[i1].barId);
-events[i1].comission.insurance=0.5*events[i1].price;
-events[i1].comission.treasury=events[i].persons;
-events[i1].comission.privateaser=events[i1].price -events[i1].price -events[i1].comission.treasury ;
-}*/
 
+function payTheActors(){
+  for(var i=0;i<actors.length;i++)
+  { 
+    var eventIdActors = actors[i].eventId;
+    for(var j=0;j<actors[i].payment.length;j++){
+        if(actors[i].payment[j].who == 'booker')
+
+          {
+            actors[i].payment[j].amount = amountBooker(eventIdActors);
+          }
+        else if (actors[i].payment[j].who == 'bar')
+        {
+          actors[i].payment[j].amount = amountBar(eventIdActors);
+        }
+        else if (actors[i].payment[j].who == 'insurance')
+        {
+          actors[i].payment[j].amount = amountInsurance(eventIdActors);
+        }
+        else if (actors[i].payment[j].who == 'treasury')
+        {
+          actors[i].payment[j].amount = amountTreasury(eventIdActors);
+        }
+        else if (actors[i].payment[j].who == 'privateaser')
+        {
+          actors[i].payment[j].amount = amountPrivateaser(eventIdActors);
+        }
+
+    }
+  }
+  
+}
 
 
 'use strict';
@@ -222,6 +297,7 @@ const actors = [{
 priceForEachBooker();
 computeCommission();
 isDeductible();
+payTheActors();
 console.log(bars);
 console.log(events);
 console.log(actors);
