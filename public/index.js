@@ -50,6 +50,18 @@ function computeCommission(){
   }
 }
 
+function isDeductible()
+{
+  for (var i=0 ;i<events.length;i++)
+  {
+    if(events[i].options.deductibleReduction == true){
+
+      var priceFinal = Number(events[i].price) + Number(events[i].persons);
+      events[i].price = priceFinal
+    }
+  }
+}
+
 /*var i1 ;
 for(i1=0;i<events.length;i1++)
 {
@@ -209,6 +221,7 @@ const actors = [{
 }];
 priceForEachBooker();
 computeCommission();
+isDeductible();
 console.log(bars);
 console.log(events);
 console.log(actors);
