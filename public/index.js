@@ -32,9 +32,23 @@ function priceForEachBooker(){
       }
       events[i].price = finalPrice; 
 }
+return finalPrice;
 }
 
 
+function computeCommission(){
+  
+  for (var i=0;i<events.length;i++)
+  {
+      var commission = Number(events[i].price) * 0.3;
+      var insurance = commission % 2;
+      var treasury  = events[i].persons;
+      var privateaser= Number(treasury) - Number(insurance);
+      events[i].insurance = insurance; 
+      events[i].treasury = treasury;
+      events[i].privateaser = privateaser;
+  }
+}
 
 /*var i1 ;
 for(i1=0;i<events.length;i1++)
@@ -194,6 +208,7 @@ const actors = [{
   }]
 }];
 priceForEachBooker();
+computeCommission();
 console.log(bars);
 console.log(events);
 console.log(actors);
